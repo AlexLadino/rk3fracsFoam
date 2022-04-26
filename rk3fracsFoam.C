@@ -48,7 +48,8 @@ int main(int argc, char *argv[])
     #include "initContinuityErrs.H"
 
     turbulence->validate();
-    
+    #include "createFieldsBudget.H"
+    #include "createFieldsNumericalDissipation.H"
     #include "pEqn.H"
     
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -77,6 +78,8 @@ int main(int argc, char *argv[])
             phi = (fvc::interpolate(U) & mesh.Sf());
             turbulence->correct();
 
+        #include "budget.H"
+        #include "numericalDissipation.H"
         runTime.write();
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
